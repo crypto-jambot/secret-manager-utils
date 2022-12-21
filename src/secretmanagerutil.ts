@@ -14,7 +14,7 @@ export class SecretUtil {
         client = new SecretManagerServiceClient(options);
     }
 
-    async getSecret(
+    async getSecretPayload(
         name: string,
         secretVersion?: string
     ): Promise<string | Uint8Array> {
@@ -34,6 +34,22 @@ export class SecretUtil {
                 const { data } = payload;
                 secret = data;
                 resolve(secret);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    getSecretString(name: string, secretVersion?: string): Promise<string> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const data = (
+                    await this.getSecretPayload(name, secretVersion)
+                ).toString();
+                if (!data) {
+                    return;
+                }
+                resolve(data);
             } catch (err) {
                 reject(err);
             }
