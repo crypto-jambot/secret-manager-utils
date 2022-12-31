@@ -1,16 +1,11 @@
-import jam from "./types";
 import { SecretManagerServiceClient } from "@google-cloud/secret-manager";
+import { ClientOptions } from "google-gax";
 
 let client: SecretManagerServiceClient;
 let secret: string | Uint8Array;
 
-export interface SecretUtilOptions {
-    keyFile?: string | undefined;
-    projectId?: string | undefined;
-}
-
 export class SecretUtil {
-    constructor(options?: jam.SecretUtilOptions) {
+    constructor(options?: ClientOptions) {
         client = new SecretManagerServiceClient(options);
     }
 
